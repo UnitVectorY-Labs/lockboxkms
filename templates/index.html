@@ -124,11 +124,17 @@
             border: none;
             border-top: 1px solid #e5e7eb;
         }
+
+        #error {
+            color: red;
+            margin-top: 1rem;
+        }
     </style>
     <script src="https://unpkg.com/htmx.org@2.0.3/dist/htmx.min.js" integrity="sha384-0895/pl2MU10Hqc6jd4RvrthNlDiE9U1tWmX7WRESftEDRosgxNsQG/Ze9YMRzHq" crossorigin="anonymous"></script>
+    <script src="https://unpkg.com/htmx-ext-response-targets@2.0.1/response-targets.js" integrity="sha384-25EjMH+UroVBJlocVAefkTNIVpGryrC7PN/vwZFZrLDWJ64ZlgE+7tOg1z7pWEfW" crossorigin="anonymous"></script>
 </head>
 <body>
-    <div class="container">
+    <div class="container" hx-ext="response-targets">
         <h1>LockboxKMS</h1>
         <div>
             <div>
@@ -144,10 +150,10 @@
                 <div>{{.KeyRing}}</div>
             </div>
         </div>
-        <form hx-post="/encrypt" hx-target="#encrypted-text" hx-swap="innerHTML">
+        <form hx-post="/encrypt" hx-target="#encrypted-text" hx-swap="innerHTML" hx-target-error="#error">
             <div>
                 <label for="key">Key:</label>
-                <select id="key" name="key" hx-get="/keys" hx-trigger="load" hx-target="#keydd" hx-swap="outerHTML">
+                <select id="key" name="key" hx-get="/keys" hx-trigger="load" hx-target="#key" hx-swap="innerHTML" hx-target-error="#error">
                     <option id="keydd" value="" disabled selected>Loading Keys</option>
                 </select>
             </div>
@@ -161,6 +167,7 @@
         <label for="encrypted-text">Encrypted Text:</label>
         <div id="encrypted-text"></div>
         <button id="copy-button" onclick="copyText()">Copy</button>
+        <div id="error"></div>
     </div>
     <script>
         function copyText() {

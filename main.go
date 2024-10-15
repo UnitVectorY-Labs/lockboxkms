@@ -6,11 +6,19 @@ import (
 	"html/template"
 	"log"
 	"net/http"
+	"regexp"
 	"strings"
 
 	"lockboxkms/internal/config"
 	"lockboxkms/internal/kms"
 )
+
+const (
+	maxKeyNameLength = 63
+	maxPlaintextSize = 64 * 1024 // 64 KiB
+)
+
+var keyNameRegex = regexp.MustCompile(`^[a-zA-Z0-9_-]+$`)
 
 var tpl = template.Must(template.ParseFiles("templates/index.html"))
 var cfg config.Config
@@ -88,6 +96,29 @@ func encryptHandler(client *kms.Client) http.HandlerFunc {
 
 		if keyName == "" || plaintext == "" {
 			http.Error(w, "Key and text are required", http.StatusBadRequest)
+			return
+		}
+
+		expectedPrefix := fmt.Sprintf("projects/%s/locations/%s/keyRings/%s/cryptoKeys/", cfg.ProjectID, cfg.Location, cfg.KeyRing)
+		if !strings.HasPrefix(keyName, expectedPrefix) {
+			http.Error(w, "Invalid keyName format", http.StatusBadRequest)
+			return
+		}
+
+		shortName := keyName[strings.LastIndex(keyName, "/")+1:]
+
+		if !keyNameRegex.MatchString(shortName) {
+			http.Error(w, "Invalid keyName format", http.StatusBadRequest)
+			return
+		}
+
+		if len(shortName) > maxKeyNameLength {
+			http.Error(w, fmt.Sprintf("keyName exceeds maximum length of %d characters", maxKeyNameLength), http.StatusBadRequest)
+			return
+		}
+
+		if len(plaintext) >= maxPlaintextSize {
+			http.Error(w, fmt.Sprintf("plaintext exceeds maximum size of %d bytes", maxPlaintextSize), http.StatusBadRequest)
 			return
 		}
 
