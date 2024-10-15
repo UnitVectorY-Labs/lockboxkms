@@ -12,13 +12,7 @@ import (
 	"lockboxkms/internal/kms"
 )
 
-type PageData struct {
-	GCPProject string
-	KeyRing    string
-}
-
 var tpl = template.Must(template.ParseFiles("templates/index.html"))
-
 var cfg config.Config
 
 func main() {
@@ -42,11 +36,7 @@ func main() {
 		log.Fatal("GCP_PROJECT and KMS_KEY_RING environment variables must be set")
 	}
 
-	// Serve static files
-	fs := http.FileServer(http.Dir("./static"))
-
 	// Set up HTTP handlers
-	http.Handle("/static/", http.StripPrefix("/static/", fs))
 	http.HandleFunc("/", serveHome)
 	http.HandleFunc("/keys", getKeysHandler(kmsClient))
 	http.HandleFunc("/encrypt", encryptHandler(kmsClient))

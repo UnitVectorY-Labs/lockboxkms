@@ -4,29 +4,147 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>LockboxKMS - Encrypt Your Data</title>
-    <!-- Custom CSS -->
-    <link href="/static/styles.css" rel="stylesheet">
-    <!-- HTMX via CDN -->
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background-color: #f3f4f6;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            font-family: Arial, sans-serif;
+        }
+
+        .container {
+            background-color: #fff;
+            padding: 2rem;
+            border-radius: 0.5rem;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            width: 100%;
+            max-width: 700px;
+            overflow: hidden;
+        }
+
+        h1 {
+            font-size: 1.5rem;
+            font-weight: bold;
+            margin-bottom: 1.5rem;
+            text-align: center;
+            color: #3b82f6;
+        }
+
+        .container > div {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 1rem;
+            gap: 1rem;
+        }
+
+        .container > div > div {
+            display: flex;
+            flex-direction: column;
+            flex: 1;
+        }
+
+        label {
+            margin-bottom: 0.5rem;
+            color: #4b5563;
+            font-weight: bold;
+        }
+
+        input, select, textarea {
+            width: 100%;
+            padding: 0.5rem;
+            border: 1px solid #d1d5db;
+            border-radius: 0.25rem;
+            margin-top: 0.5rem;
+            background-color: #f9fafb;
+        }
+
+        form div {
+            margin-bottom: 1rem;
+        }
+
+        button {
+            padding: 0.5rem;
+            background-color: #3b82f6;
+            color: #fff;
+            border: none;
+            border-radius: 0.25rem;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        button:hover {
+            background-color: #2563eb;
+        }
+
+        button[type="submit"] {
+            width: 100%;
+        }
+
+        #encrypted-text {
+            margin-top: 1rem;
+            padding: 1rem;
+            background-color: #f9fafb;
+            border: 1px solid #e5e7eb;
+            border-radius: 0.25rem;
+            max-width: 100%;
+            word-wrap: break-word;
+            overflow-wrap: break-word;
+            white-space: normal;
+            overflow: hidden;
+            word-break: break-all;
+        }
+
+        #copy-button {
+            margin-top: 0rem;
+            padding: 0.5rem 1rem;
+            background-color: #4ade80;
+            color: #fff;
+            border: none;
+            border-radius: 0.25rem;
+            cursor: pointer;
+            text-align: center;
+            align-self: flex-start;
+            /* Removed full width */
+        }
+
+        #copy-button:hover {
+            background-color: #22c55e;
+        }
+
+        hr {
+            margin: 2rem 0;
+            border: none;
+            border-top: 1px solid #e5e7eb;
+        }
+    </style>
     <script src="https://unpkg.com/htmx.org@2.0.0/dist/htmx.min.js" integrity="sha384-wS5l5IKJBvK6sPTKa2WZ1js3d947pvWXbPJ1OmWfEuxLgeHcEbjUUA5i9V5ZkpCw" crossorigin="anonymous"></script>
 </head>
 <body>
     <div class="container">
         <h1>LockboxKMS</h1>
-        <div class="info-fields-horizontal">
-            <div class="info-field">
+        <div>
+            <div>
                 <label>Project:</label>
-                <div class="info-input">{{.ProjectID}}</div>
+                <div>{{.ProjectID}}</div>
             </div>
-            <div class="info-field">
+            <div>
                 <label>Location:</label>
-                <div class="info-input">{{.Location}}</div>
+                <div>{{.Location}}</div>
             </div>
-            <div class="info-field">
+            <div>
                 <label>Key Ring:</label>
-                <div class="info-input">{{.KeyRing}}</div>
+                <div>{{.KeyRing}}</div>
             </div>
         </div>
-        <form id="encrypt-form" hx-post="/encrypt" hx-target="#encrypted-text" hx-swap="innerHTML">
+        <form hx-post="/encrypt" hx-target="#encrypted-text" hx-swap="innerHTML">
             <div>
                 <label for="key">Key:</label>
                 <select id="key" name="key" hx-get="/keys" hx-trigger="load" hx-target="#keydd" hx-swap="outerHTML">
@@ -39,19 +157,16 @@
             </div>
             <button type="submit">Encrypt</button>
         </form>
-        <label for="text">Encrypted Text:</label>
-        <div id="result" class="result">
-            <div id="encrypted-text" class="encrypted-text"></div>
-        </div>
-        <button id="copy-button" class="copy-button" onclick="copyText()">Copy</button>
+        <hr>
+        <label for="encrypted-text">Encrypted Text:</label>
+        <div id="encrypted-text"></div>
+        <button id="copy-button" onclick="copyText()">Copy</button>
     </div>
-
     <script>
         function copyText() {
-            const encryptedTextElement = document.getElementById('encrypted-text');
-            if (encryptedTextElement && encryptedTextElement.innerText.trim() !== '') {
-                const encryptedText = encryptedTextElement.innerText;
-                navigator.clipboard.writeText(encryptedText);
+            const text = document.getElementById('encrypted-text').innerText.trim();
+            if (text) {
+                navigator.clipboard.writeText(text);
             }
         }
     </script>
