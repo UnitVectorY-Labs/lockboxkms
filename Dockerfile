@@ -11,7 +11,7 @@ RUN go mod download
 # Copy the source code into the container
 COPY . .
 
-# Build the Go gRPC server
+# Build the Go server
 RUN go build -mod=readonly -o server .
 
 # Use a minimal base image for running the compiled binary
@@ -23,8 +23,8 @@ COPY --from=builder /app/server /server
 # Copy the template folder into the runtime container
 COPY --from=builder /app/templates /templates
 
-# Expose the port that the gRPC server will listen on
-EXPOSE 50051
+# Expose the port that the server will listen on
+EXPOSE 8080
 
-# Run the gRPC server binary
+# Run the server binary
 CMD ["/server"]
