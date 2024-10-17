@@ -27,6 +27,10 @@ func main() {
 	// Load configuration
 	cfg = config.LoadConfig()
 
+	if cfg.ProjectID == "" {
+		log.Fatal("GCP_PROJECT environment variable must be set")
+	}
+
 	// Initialize KMS client
 	ctx := context.Background()
 	kmsClient, err := kms.NewClient(ctx, kms.Config{
