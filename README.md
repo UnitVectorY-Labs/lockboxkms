@@ -12,6 +12,10 @@ This application provides an extremely simple web interface for encrypting data 
 
 The encrypted data is returned to the user base64 encoded, and can be decrypted using the same key in the KMS key ring, but this interface intentionally does not provide a decryption option.  The intent here is to provide a simple way to encrypt data using KMS, and then store the encrypted data somewhere so that a separate process can later use the same key to decrypt the data.
 
+## Usage
+
+The latest `lockboxkms` Docker image is available for deployment from GitHub Packages at [ghcr.io/unitvectory-labs/lockboxkms](https://github.com/UnitVectorY-Labs/lockboxkms/pkgs/container/lockboxkms).
+
 ## Configuration
 
 The application is configurable through environment variables. Below are the available configurations:
