@@ -1,3 +1,5 @@
+[![GitHub release](https://img.shields.io/github/release/UnitVectorY-Labs/lockboxkms.svg)](https://github.com/UnitVectorY-Labs/lockboxkms/releases/latest) [![License](https://img.shields.io/badge/license-MIT-blue)](https://opensource.org/licenses/MIT) [![Active](https://img.shields.io/badge/Status-Active-green)](https://guide.unitvectorylabs.com/bestpractices/status/#active)
+
 # lockboxkms
 
 A simple web interface for encrypting text using Google Cloud KMS.
