@@ -18,14 +18,9 @@ const (
 	maxPlaintextSize = 64 * 1024 // 64 KiB
 )
 
-var keyNameRegex = regexp.MustCompile(`^[a-zA-Z0-9_-]+$`)
-
-var tpl = template.Must(template.ParseFiles("templates/index.html"))
-var cfg config.Config
-
 func main() {
 	// Load configuration
-	cfg = config.LoadConfig()
+	cfg := config.LoadConfig()
 
 	if cfg.ProjectID == "" {
 		log.Fatal("GCP_PROJECT environment variable must be set")
@@ -48,10 +43,16 @@ func main() {
 		log.Fatal("GCP_PROJECT and KMS_KEY_RING environment variables must be set")
 	}
 
+	// Regular expression for validating key names
+	keyNameRegex := regexp.MustCompile(`^[a-zA-Z0-9_-]+$`)
+
+	// Load the HTML template
+	tpl := template.Must(template.ParseFiles("templates/index.html"))
+
 	// Set up HTTP handlers
-	http.HandleFunc("/", serveHome)
+	http.HandleFunc("/", getHomeHandler(cfg, tpl))
 	http.HandleFunc("/keys", getKeysHandler(kmsClient))
-	http.HandleFunc("/encrypt", encryptHandler(kmsClient))
+	http.HandleFunc("/encrypt", encryptHandler(cfg, kmsClient, keyNameRegex))
 
 	// Start the server
 	log.Printf("Server starting on port %s", cfg.Port)
@@ -61,11 +62,13 @@ func main() {
 }
 
 // serveHome renders the main HTML page
-func serveHome(w http.ResponseWriter, r *http.Request) {
-	err := tpl.Execute(w, cfg)
-	if err != nil {
-		http.Error(w, "Internal Server Error", http.StatusInternalServerError)
-		log.Printf("Template execution error: %v", err)
+func getHomeHandler(cfg config.Config, tpl *template.Template) http.HandlerFunc {
+	return func(w http.ResponseWriter, r *http.Request) {
+		err := tpl.Execute(w, cfg)
+		if err != nil {
+			http.Error(w, "Internal Server Error", http.StatusInternalServerError)
+			log.Printf("Template execution error: %v", err)
+		}
 	}
 }
 
@@ -93,7 +96,7 @@ func getKeysHandler(client *kms.Client) http.HandlerFunc {
 }
 
 // encryptHandler returns an HTTP handler function for encrypting text
-func encryptHandler(client *kms.Client) http.HandlerFunc {
+func encryptHandler(cfg config.Config, client *kms.Client, keyNameRegex *regexp.Regexp) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 		keyName := r.FormValue("key")
 		plaintext := r.FormValue("text")
