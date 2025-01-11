@@ -3,7 +3,7 @@ module lockboxkms
 go 1.23.4
 
 require (
-	cloud.google.com/go/kms v1.20.4
+	cloud.google.com/go/kms v1.20.5
 	google.golang.org/api v0.216.0
 )
 
