@@ -1,6 +1,6 @@
 module lockboxkms
 
-go 1.23.4
+go 1.23.5
 
 require (
 	cloud.google.com/go/kms v1.20.5
