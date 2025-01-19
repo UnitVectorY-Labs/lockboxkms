@@ -64,6 +64,11 @@ func main() {
 // serveHome renders the main HTML page
 func getHomeHandler(cfg config.Config, tpl *template.Template) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
+		if r.URL.Path != "/" {
+			http.NotFound(w, r)
+			return
+		}
+
 		err := tpl.Execute(w, cfg)
 		if err != nil {
 			http.Error(w, "Internal Server Error", http.StatusInternalServerError)
