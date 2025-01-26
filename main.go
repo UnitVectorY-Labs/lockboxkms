@@ -9,8 +9,8 @@ import (
 	"regexp"
 	"strings"
 
-	"lockboxkms/internal/config"
-	"lockboxkms/internal/kms"
+	"github.com/UnitVectorY-Labs/lockboxkms/internal/config"
+	"github.com/UnitVectorY-Labs/lockboxkms/internal/kms"
 )
 
 const (
