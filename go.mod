@@ -1,4 +1,4 @@
-module lockboxkms
+module github.com/UnitVectorY-Labs/lockboxkms
 
 go 1.23.5
 
