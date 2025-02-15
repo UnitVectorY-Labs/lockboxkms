@@ -1,6 +1,6 @@
 module github.com/UnitVectorY-Labs/lockboxkms
 
-go 1.23.6
+go 1.24.0
 
 require (
 	cloud.google.com/go/kms v1.20.5
