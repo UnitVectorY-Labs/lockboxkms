@@ -1,6 +1,6 @@
 module github.com/UnitVectorY-Labs/lockboxkms
 
-go 1.24.4 // GOVERSION
+go 1.24.5 // GOVERSION
 
 require (
 	cloud.google.com/go/kms v1.22.0
