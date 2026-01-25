@@ -14,6 +14,7 @@
         body {
             background-color: #f3f4f6;
             display: flex;
+            flex-direction: column;
             align-items: center;
             justify-content: center;
             min-height: 100vh;
@@ -129,6 +130,20 @@
             color: red;
             margin-top: 1rem;
         }
+
+        footer {
+            text-align: center;
+            color: #9ca3af;
+            font-size: 0.8em;
+            padding: 15px 10px;
+        }
+        footer a {
+            color: #6b7280;
+            text-decoration: none;
+        }
+        footer a:hover {
+            text-decoration: underline;
+        }
     </style>
     <script src="https://unpkg.com/htmx.org@2.0.3/dist/htmx.min.js" integrity="sha384-0895/pl2MU10Hqc6jd4RvrthNlDiE9U1tWmX7WRESftEDRosgxNsQG/Ze9YMRzHq" crossorigin="anonymous"></script>
     <script src="https://unpkg.com/htmx-ext-response-targets@2.0.1/response-targets.js" integrity="sha384-25EjMH+UroVBJlocVAefkTNIVpGryrC7PN/vwZFZrLDWJ64ZlgE+7tOg1z7pWEfW" crossorigin="anonymous"></script>
@@ -177,5 +192,13 @@
             }
         }
     </script>
+    <footer>
+        <p>
+            <a href="https://github.com/UnitVectorY-Labs">UnitVectorY Labs</a> | 
+            <a href="https://opensource.org/licenses/MIT">MIT License</a> | 
+            <a href="https://github.com/UnitVectorY-Labs/lockboxkms"><strong>lockboxkms</strong> on GitHub</a>
+        </p>
+        <p>Version: {{ version }}</p>
+    </footer>
 </body>
 </html>
