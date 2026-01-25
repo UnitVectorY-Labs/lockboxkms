@@ -14,6 +14,9 @@ import (
 	"github.com/UnitVectorY-Labs/lockboxkms/internal/kms"
 )
 
+// Version is the application version, injected at build time via ldflags
+var Version = "dev"
+
 //go:embed templates/*
 var templatesFS embed.FS
 
@@ -50,8 +53,12 @@ func main() {
 	// Regular expression for validating key names
 	keyNameRegex := regexp.MustCompile(`^[a-zA-Z0-9_-]+$`)
 
-	// Load the HTML template from embedded filesystem
-	tpl := template.Must(template.ParseFS(templatesFS, "templates/index.html"))
+	log.Printf("Starting lockboxkms version %s", Version)
+
+	// Load the HTML template from embedded filesystem with version function
+	tpl := template.Must(template.New("index.html").Funcs(template.FuncMap{
+		"version": func() string { return Version },
+	}).ParseFS(templatesFS, "templates/index.html"))
 
 	// Set up HTTP handlers
 	http.HandleFunc("/", getHomeHandler(cfg, tpl))
