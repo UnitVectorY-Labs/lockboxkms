@@ -30,7 +30,7 @@ func main() {
 	cfg := config.LoadConfig()
 
 	if cfg.ProjectID == "" {
-		log.Fatal("GCP_PROJECT environment variable must be set")
+		log.Fatal("GOOGLE_CLOUD_PROJECT environment variable must be set")
 	}
 
 	// Initialize KMS client
@@ -47,7 +47,7 @@ func main() {
 
 	// Verify essential configurations
 	if cfg.ProjectID == "" || cfg.KeyRing == "" {
-		log.Fatal("GCP_PROJECT and KMS_KEY_RING environment variables must be set")
+		log.Fatal("GOOGLE_CLOUD_PROJECT and KMS_KEY_RING environment variables must be set")
 	}
 
 	// Regular expression for validating key names
