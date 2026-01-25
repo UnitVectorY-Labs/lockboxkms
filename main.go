@@ -2,6 +2,7 @@ package main
 
 import (
 	"context"
+	"embed"
 	"fmt"
 	"html/template"
 	"log"
@@ -12,6 +13,9 @@ import (
 	"github.com/UnitVectorY-Labs/lockboxkms/internal/config"
 	"github.com/UnitVectorY-Labs/lockboxkms/internal/kms"
 )
+
+//go:embed templates/*
+var templatesFS embed.FS
 
 const (
 	maxKeyNameLength = 63
@@ -46,8 +50,8 @@ func main() {
 	// Regular expression for validating key names
 	keyNameRegex := regexp.MustCompile(`^[a-zA-Z0-9_-]+$`)
 
-	// Load the HTML template
-	tpl := template.Must(template.ParseFiles("templates/index.html"))
+	// Load the HTML template from embedded filesystem
+	tpl := template.Must(template.ParseFS(templatesFS, "templates/index.html"))
 
 	// Set up HTTP handlers
 	http.HandleFunc("/", getHomeHandler(cfg, tpl))
