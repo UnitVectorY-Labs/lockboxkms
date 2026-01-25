@@ -15,7 +15,7 @@ type Config struct {
 // LoadConfig reads configuration from environment variables
 func LoadConfig() Config {
 	return Config{
-		ProjectID: getEnv("GCP_PROJECT", ""),
+		ProjectID: getEnv("GOOGLE_CLOUD_PROJECT", ""),
 		Location:  getEnv("KMS_LOCATION", "us"),
 		KeyRing:   getEnv("KMS_KEY_RING", "lockboxkms"),
 		Port:      getEnv("PORT", "8080"),

@@ -22,7 +22,7 @@ The latest `lockboxkms` Docker image is available for deployment from GitHub Pac
 
 The application is configurable through environment variables. Below are the available configurations:
 
-- `GCP_PROJECT`: Your Google Cloud project ID. (required, application will not start without it)
+- `GOOGLE_CLOUD_PROJECT`: Your Google Cloud project ID. (required, application will not start without it)
 - `KMS_LOCATION`: The location of your KMS resources (default: us).
 - `KMS_KEY_RING`: The name of the KMS key ring to use (default: lockboxkms).
 - `GOOGLE_APPLICATION_CREDENTIALS`: (Optional) The path to your Google Cloud service account key file. If not provided, the application will use the default service account credentials which is recommended when deploying to GCP.
