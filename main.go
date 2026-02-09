@@ -8,6 +8,7 @@ import (
 	"log"
 	"net/http"
 	"regexp"
+	"runtime/debug"
 	"strings"
 
 	"github.com/UnitVectorY-Labs/lockboxkms/internal/config"
@@ -26,6 +27,15 @@ const (
 )
 
 func main() {
+	// Set the build version from the build info if not set by the build system
+	if Version == "dev" || Version == "" {
+		if bi, ok := debug.ReadBuildInfo(); ok {
+			if bi.Main.Version != "" && bi.Main.Version != "(devel)" {
+				Version = bi.Main.Version
+			}
+		}
+	}
+
 	// Load configuration
 	cfg := config.LoadConfig()
 
