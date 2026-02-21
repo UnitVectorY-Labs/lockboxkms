@@ -4,7 +4,7 @@ go 1.26.0 // GOVERSION
 
 require (
 	cloud.google.com/go/kms v1.25.0
-	google.golang.org/api v0.266.0
+	google.golang.org/api v0.267.0
 )
 
 require (
