@@ -1,0 +1,14 @@
+name: lockboxkms
+default_branch: main
+config:
+  description: "A simple web interface for encrypting text using Google Cloud KMS."
+  license: MIT
+  language: go
+  release: docker-go
+  justfile: true
+  status: active
+  release_github: true
+  codecov:
+    enabled: true
+  docs:
+    enabled: false
