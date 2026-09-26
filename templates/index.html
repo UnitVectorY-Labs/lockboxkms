@@ -145,11 +145,10 @@
             text-decoration: underline;
         }
     </style>
-    <script src="https://unpkg.com/htmx.org@2.0.3/dist/htmx.min.js" integrity="sha384-0895/pl2MU10Hqc6jd4RvrthNlDiE9U1tWmX7WRESftEDRosgxNsQG/Ze9YMRzHq" crossorigin="anonymous"></script>
-    <script src="https://unpkg.com/htmx-ext-response-targets@2.0.1/response-targets.js" integrity="sha384-25EjMH+UroVBJlocVAefkTNIVpGryrC7PN/vwZFZrLDWJ64ZlgE+7tOg1z7pWEfW" crossorigin="anonymous"></script>
+    <script src="https://unpkg.com/htmx.org@4.0.0/dist/htmx.min.js" integrity="sha384-BvJpBiO8Kh31EqtJe5DRIeWrHWnCGkwytKs9NKFi86Hhw96dEqdEMzZDeK9iEGTc" crossorigin="anonymous"></script>
 </head>
 <body>
-    <div class="container" hx-ext="response-targets">
+    <div class="container" hx-status:4xx:inherited="target:#error" hx-status:5xx:inherited="target:#error">
         <h1>LockboxKMS</h1>
         <div>
             <div>
@@ -165,10 +164,10 @@
                 <div>{{.KeyRing}}</div>
             </div>
         </div>
-        <form hx-post="/encrypt" hx-target="#encrypted-text" hx-swap="innerHTML" hx-target-error="#error">
+        <form hx-post="/encrypt" hx-target:inherited="#encrypted-text" hx-swap:inherited="innerHTML">
             <div>
                 <label for="key">Key:</label>
-                <select id="key" name="key" hx-get="/keys" hx-trigger="load" hx-target="#key" hx-swap="innerHTML" hx-target-error="#error">
+                <select id="key" name="key" hx-get="/keys" hx-trigger="load" hx-target="#key" hx-swap="innerHTML">
                     <option id="keydd" value="" disabled selected>Loading Keys</option>
                 </select>
             </div>
