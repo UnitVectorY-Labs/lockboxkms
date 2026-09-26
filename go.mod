@@ -3,7 +3,7 @@ module github.com/UnitVectorY-Labs/lockboxkms
 go 1.27.0 // GOVERSION
 
 require (
-	cloud.google.com/go/kms v1.33.0
+	cloud.google.com/go/kms v1.34.0
 	google.golang.org/api v0.298.0
 )
 
