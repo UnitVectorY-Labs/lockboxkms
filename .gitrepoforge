@@ -1,6 +1,7 @@
 name: lockboxkms
 default_branch: main
 config:
+  osv: sarif
   description: "A simple web interface for encrypting text using Google Cloud KMS."
   license: MIT
   language: go
